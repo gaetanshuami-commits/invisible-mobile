@@ -22,177 +22,105 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.cinematic-bg {
+.hero-video-effect {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 22% 22%, rgba(10, 120, 95, .22), transparent 28%),
-    radial-gradient(circle at 80% 30%, rgba(20, 80, 160, .20), transparent 28%),
-    linear-gradient(120deg, rgba(255,255,255,.8), transparent 55%);
-  animation: cinematicPulse 8s ease-in-out infinite alternate;
+    radial-gradient(circle at 20% 20%, rgba(16,185,129,.28), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(37,99,235,.20), transparent 26%),
+    linear-gradient(120deg, rgba(255,255,255,.95), transparent 60%);
+  animation: heroVideo 8s ease-in-out infinite alternate;
 }
 
-.phone-shell {
+.phone-frame {
   position: absolute;
   inset: 0;
   margin: auto;
   height: 640px;
   width: 330px;
-  border-radius: 52px;
+  border-radius: 56px;
   background: #050505;
   padding: 12px;
-  box-shadow: 0 40px 100px rgba(0,0,0,.28);
+  box-shadow: 0 45px 120px rgba(0,0,0,.30);
   animation: phoneFloat 5s ease-in-out infinite;
 }
 
-.phone-screen {
+.phone-screen-pro {
   position: relative;
   height: 100%;
   overflow: hidden;
-  border-radius: 42px;
+  border-radius: 44px;
   background: #111;
 }
 
-.video-layer {
+.animated-network {
   position: absolute;
-  inset: -20%;
-  opacity: .9;
-  filter: blur(0.2px);
+  inset: -30%;
+  background:
+    linear-gradient(135deg, #050505, #13d68f, #1d4ed8, #050505),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.12) 0 1px, transparent 1px 30px);
+  background-blend-mode: screen;
+  animation: networkVideo 10s linear infinite;
 }
 
-.layer-one {
-  background: linear-gradient(135deg, #111 0%, #0f3 35%, #111 70%);
-  animation: videoMoveOne 8s linear infinite;
-}
-
-.layer-two {
-  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.75), transparent 22%);
-  animation: videoMoveTwo 7s ease-in-out infinite alternate;
-  mix-blend-mode: overlay;
-}
-
-.layer-three {
-  background: repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 28px);
-  animation: gridMove 10s linear infinite;
-}
-
-.screen-content {
+.phone-ui {
   position: relative;
-  z-index: 3;
+  z-index: 2;
+  display: flex;
   height: 100%;
-  padding: 24px;
-  display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  padding: 24px;
 }
 
-.screen-top {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  right: 24px;
-  display: flex;
-  justify-content: space-between;
-  color: white;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.data-card,
-.ai-card {
-  border-radius: 28px;
-  padding: 22px;
-  backdrop-filter: blur(22px);
-}
-
-.data-card {
-  background: rgba(255,255,255,.88);
-  color: black;
-}
-
-.data-card p,
-.ai-card p {
-  margin: 0;
-  font-size: 13px;
-  opacity: .55;
-}
-
-.data-card strong {
-  display: block;
-  margin-top: 8px;
-  font-size: 46px;
-  letter-spacing: -0.06em;
-}
-
-.data-card span {
-  display: block;
-  margin-top: 8px;
-  font-size: 13px;
-  opacity: .55;
-}
-
-.ai-card {
-  margin-top: 12px;
-  background: rgba(0,0,0,.72);
-  color: white;
-}
-
-.ai-card strong {
-  display: block;
-  margin-top: 8px;
-  font-size: 22px;
-  line-height: 1.1;
-}
-
-.signal-ring {
-  position: absolute;
-  inset: 60px;
-  border: 1px solid rgba(0,0,0,.14);
-  border-radius: 999px;
-  animation: ringPulse 4s ease-in-out infinite;
-}
-
-.ring-two { inset: 20px; animation-delay: .6s; }
-.ring-three { inset: -20px; animation-delay: 1.2s; }
-
-.floating-card {
+.floating-card-pro {
   position: absolute;
   z-index: 10;
   border-radius: 24px;
-  background: rgba(255,255,255,.84);
+  background: rgba(255,255,255,.86);
   padding: 16px 18px;
   backdrop-filter: blur(18px);
   box-shadow: 0 20px 50px rgba(0,0,0,.14);
 }
 
-.floating-card span {
+.floating-card-pro span {
   display: block;
   font-size: 11px;
   font-weight: 700;
   color: rgba(0,0,0,.45);
 }
 
-.floating-card strong {
+.floating-card-pro strong {
   display: block;
   margin-top: 4px;
   font-size: 18px;
 }
 
-.card-left {
+.left-card {
   left: 0;
   top: 130px;
-  animation: cardFloatOne 4s ease-in-out infinite;
+  animation: floatCardOne 4s ease-in-out infinite;
 }
 
-.card-right {
+.right-card {
   right: 0;
   bottom: 150px;
-  animation: cardFloatTwo 5s ease-in-out infinite;
+  animation: floatCardTwo 5s ease-in-out infinite;
 }
 
-@keyframes cinematicPulse {
+.marquee {
+  width: max-content;
+  min-width: 200%;
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes heroVideo {
   from { transform: scale(1); filter: saturate(1); }
   to { transform: scale(1.04); filter: saturate(1.35); }
+}
+
+@keyframes networkVideo {
+  from { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
+  to { transform: translateX(10%) translateY(10%) rotate(360deg); }
 }
 
 @keyframes phoneFloat {
@@ -200,32 +128,12 @@ body {
   50% { transform: translateY(-18px) rotate(2deg); }
 }
 
-@keyframes videoMoveOne {
-  from { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
-  to { transform: translateX(10%) translateY(10%) rotate(360deg); }
-}
-
-@keyframes videoMoveTwo {
-  from { transform: translateX(-12%) scale(1); }
-  to { transform: translateX(18%) scale(1.4); }
-}
-
-@keyframes gridMove {
-  from { transform: translateX(0); }
-  to { transform: translateX(120px); }
-}
-
-@keyframes ringPulse {
-  0%, 100% { transform: scale(.95); opacity: .2; }
-  50% { transform: scale(1.08); opacity: .55; }
-}
-
-@keyframes cardFloatOne {
+@keyframes floatCardOne {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-14px); }
 }
 
-@keyframes cardFloatTwo {
+@keyframes floatCardTwo {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(16px); }
 }
@@ -233,10 +141,4 @@ body {
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
-}
-
-.marquee {
-  width: max-content;
-  min-width: 200%;
-  animation: marquee 22s linear infinite;
 }
