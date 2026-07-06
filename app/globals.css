@@ -1,8 +1,8 @@
 ﻿@import "tailwindcss";
 
 :root {
-  --background: #f6f4ef;
-  --foreground: #0d0d0d;
+  --background: #f4f1e8;
+  --foreground: #000000;
 }
 
 @theme inline {
@@ -12,13 +12,8 @@
   --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -27,17 +22,221 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.cinematic-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 22% 22%, rgba(10, 120, 95, .22), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(20, 80, 160, .20), transparent 28%),
+    linear-gradient(120deg, rgba(255,255,255,.8), transparent 55%);
+  animation: cinematicPulse 8s ease-in-out infinite alternate;
 }
 
-.animate-marquee {
-  display: inline-block;
+.phone-shell {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  height: 640px;
+  width: 330px;
+  border-radius: 52px;
+  background: #050505;
+  padding: 12px;
+  box-shadow: 0 40px 100px rgba(0,0,0,.28);
+  animation: phoneFloat 5s ease-in-out infinite;
+}
+
+.phone-screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 42px;
+  background: #111;
+}
+
+.video-layer {
+  position: absolute;
+  inset: -20%;
+  opacity: .9;
+  filter: blur(0.2px);
+}
+
+.layer-one {
+  background: linear-gradient(135deg, #111 0%, #0f3 35%, #111 70%);
+  animation: videoMoveOne 8s linear infinite;
+}
+
+.layer-two {
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.75), transparent 22%);
+  animation: videoMoveTwo 7s ease-in-out infinite alternate;
+  mix-blend-mode: overlay;
+}
+
+.layer-three {
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 28px);
+  animation: gridMove 10s linear infinite;
+}
+
+.screen-content {
+  position: relative;
+  z-index: 3;
+  height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.screen-top {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.data-card,
+.ai-card {
+  border-radius: 28px;
+  padding: 22px;
+  backdrop-filter: blur(22px);
+}
+
+.data-card {
+  background: rgba(255,255,255,.88);
+  color: black;
+}
+
+.data-card p,
+.ai-card p {
+  margin: 0;
+  font-size: 13px;
+  opacity: .55;
+}
+
+.data-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 46px;
+  letter-spacing: -0.06em;
+}
+
+.data-card span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: .55;
+}
+
+.ai-card {
+  margin-top: 12px;
+  background: rgba(0,0,0,.72);
+  color: white;
+}
+
+.ai-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.signal-ring {
+  position: absolute;
+  inset: 60px;
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 999px;
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.ring-two { inset: 20px; animation-delay: .6s; }
+.ring-three { inset: -20px; animation-delay: 1.2s; }
+
+.floating-card {
+  position: absolute;
+  z-index: 10;
+  border-radius: 24px;
+  background: rgba(255,255,255,.84);
+  padding: 16px 18px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 50px rgba(0,0,0,.14);
+}
+
+.floating-card span {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(0,0,0,.45);
+}
+
+.floating-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.card-left {
+  left: 0;
+  top: 130px;
+  animation: cardFloatOne 4s ease-in-out infinite;
+}
+
+.card-right {
+  right: 0;
+  bottom: 150px;
+  animation: cardFloatTwo 5s ease-in-out infinite;
+}
+
+@keyframes cinematicPulse {
+  from { transform: scale(1); filter: saturate(1); }
+  to { transform: scale(1.04); filter: saturate(1.35); }
+}
+
+@keyframes phoneFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+
+@keyframes videoMoveOne {
+  from { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
+  to { transform: translateX(10%) translateY(10%) rotate(360deg); }
+}
+
+@keyframes videoMoveTwo {
+  from { transform: translateX(-12%) scale(1); }
+  to { transform: translateX(18%) scale(1.4); }
+}
+
+@keyframes gridMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(120px); }
+}
+
+@keyframes ringPulse {
+  0%, 100% { transform: scale(.95); opacity: .2; }
+  50% { transform: scale(1.08); opacity: .55; }
+}
+
+@keyframes cardFloatOne {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes cardFloatTwo {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(16px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee {
+  width: max-content;
   min-width: 200%;
-  animation: marquee 24s linear infinite;
+  animation: marquee 22s linear infinite;
 }
