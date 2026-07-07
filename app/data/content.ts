@@ -1,23 +1,169 @@
 ﻿export type Lang = "en" | "fr";
 
 export const languages = [
-  { code: "en", label: "English" },
-  { code: "fr", label: "Français" },
+  { code: "en", label: "EN" },
+  { code: "fr", label: "FR" },
 ] as const;
 
 export const content = {
   en: {
-    nav: ["Platform", "AI Operator", "App", "Coverage", "Security", "Pricing", "FAQ"],
-    heroTitle: "The global mobile operator powered by AI.",
-    heroSubtitle: "One eSIM. One subscription. One intelligent operator. Invisible Mobile removes roaming, setup, support and data-management friction.",
+    nav: ["Platform", "AI", "App", "Coverage", "Security", "Pricing", "FAQ"],
+    heroKicker: "AI-powered global mobile operator",
+    heroTitle: "One eSIM. One AI. Connected everywhere.",
+    heroSubtitle:
+      "Invisible Mobile is a next-generation mobile platform where users install one eSIM once, then let AI manage connectivity, travel, usage, support and account actions.",
     primaryCta: "Request early access",
-    secondaryCta: "Explore platform",
+    secondaryCta: "Watch experience",
+    heroStats: ["184 countries ready", "60-second activation", "AI support 24/7"],
+    platformTitle: "A mobile operator designed to feel invisible.",
+    platformText:
+      "No country-by-country shopping, no repeated QR codes, no roaming confusion. One account controls the full connectivity experience.",
+    aiTitle: "The operator becomes conversational.",
+    aiText:
+      "Users ask simple questions. The AI checks context, explains coverage, prepares travel, helps with setup and guides next actions.",
+    appTitle: "A premium mobile app with almost no menus.",
+    appText:
+      "The interface focuses on what matters: connection, remaining data, destination readiness and AI assistance.",
+    coverageTitle: "Built for people moving across the world.",
+    coverageText:
+      "For travelers, founders, students, remote workers and international teams who need mobile internet without friction.",
+    securityTitle: "Security and trust by design.",
+    securityText:
+      "Identity, payments, account access and usage controls are designed to be protected from the beginning.",
+    comparisonTitle: "Traditional telecom complexity, removed.",
+    pricingTitle: "Simple pricing after wholesale validation.",
+    faqTitle: "Questions before launch.",
+    finalTitle: "Install once. Go anywhere.",
+    finalText: "The future mobile operator is simple, intelligent and global.",
+    cards: [
+      ["Persistent eSIM", "Install once and keep the same digital mobile profile."],
+      ["AI Operator", "Support, setup and usage become conversational."],
+      ["Global-first", "Designed for international connectivity from day one."],
+      ["Smart account", "One place for plan, usage, devices, billing and support."],
+      ["Fast activation", "Built around instant onboarding and digital delivery."],
+      ["Secure layer", "Identity, payment and account security built in."],
+    ],
+    aiMessages: [
+      ["User", "I am flying to Japan tomorrow. Am I covered?"],
+      ["Invisible AI", "Yes. Your eSIM is ready for supported networks. No new QR code required."],
+      ["User", "Why is my connection slow?"],
+      ["Invisible AI", "I checked your usage and network state. I can guide the fastest fix."],
+    ],
+    appCards: [
+      ["Connected", "Global eSIM active"],
+      ["Data", "42.8 GB available"],
+      ["Travel", "Next destination ready"],
+    ],
+    people: [
+      ["International founders", "Stay connected between meetings, airports and countries."],
+      ["Remote workers", "One account for work, travel and daily mobile internet."],
+      ["Global families", "Simple connectivity for people living across borders."],
+    ],
+    securityItems: ["Identity verification", "Secure payment", "Protected account", "Privacy controls"],
+    comparison: {
+      oldTitle: "Traditional operator",
+      newTitle: "Invisible Mobile",
+      old: ["Physical SIM friction", "Roaming rules", "Support queues", "Complex plans"],
+      next: ["One eSIM", "AI assistance", "Simple actions", "Global-first account"],
+    },
+    plans: [
+      ["One", "Essential mobile connectivity for light global usage."],
+      ["Global", "Designed for international users and regular travelers."],
+      ["Ultra", "For heavier usage, remote work and frequent mobility."],
+    ],
+    faq: [
+      ["Is Invisible Mobile a classic telecom operator?", "It is designed as an AI-first mobile connectivity platform powered by eSIM infrastructure partners."],
+      ["Will users need a physical SIM?", "No. The product vision is based on digital eSIM activation for compatible devices."],
+      ["Will one eSIM work everywhere?", "The goal is one persistent eSIM across supported destinations, depending on partner capabilities."],
+      ["Are the prices final?", "No. Final pricing must be confirmed after wholesale data costs and partner terms are validated."],
+    ],
+    footer: {
+      description: "AI-powered global mobile connectivity platform.",
+      columns: [
+        ["Product", "Platform", "AI Operator", "App", "Coverage"],
+        ["Company", "About", "Partners", "Press", "Contact"],
+        ["Legal", "Privacy", "Terms", "Security", "Cookies"],
+      ],
+    },
   },
   fr: {
-    nav: ["Plateforme", "Opérateur IA", "Application", "Couverture", "Sécurité", "Prix", "FAQ"],
-    heroTitle: "L’opérateur mobile mondial piloté par IA.",
-    heroSubtitle: "Une eSIM. Un abonnement. Un opérateur intelligent. Invisible Mobile supprime la complexité du roaming, de la configuration, du support et de la gestion data.",
+    nav: ["Plateforme", "IA", "Application", "Couverture", "Sécurité", "Prix", "FAQ"],
+    heroKicker: "Opérateur mobile mondial piloté par IA",
+    heroTitle: "Une eSIM. Une IA. Connecté partout.",
+    heroSubtitle:
+      "Invisible Mobile est une plateforme mobile nouvelle génération où l’utilisateur installe une eSIM une seule fois, puis l’IA gère la connectivité, les voyages, l’usage, le support et le compte.",
     primaryCta: "Demander un accès",
-    secondaryCta: "Voir la plateforme",
+    secondaryCta: "Voir l’expérience",
+    heroStats: ["184 pays prêts", "Activation en 60 secondes", "Support IA 24/7"],
+    platformTitle: "Un opérateur mobile conçu pour devenir invisible.",
+    platformText:
+      "Plus besoin d’acheter pays par pays, de scanner plusieurs QR codes ou de comprendre le roaming. Un seul compte pilote toute l’expérience.",
+    aiTitle: "L’opérateur devient conversationnel.",
+    aiText:
+      "L’utilisateur pose une question simple. L’IA vérifie le contexte, explique la couverture, prépare le voyage, aide à configurer et guide l’action suivante.",
+    appTitle: "Une application premium avec presque aucun menu.",
+    appText:
+      "L’interface montre uniquement l’essentiel : connexion, data restante, destination prête et assistance IA.",
+    coverageTitle: "Pensé pour les personnes qui bougent dans le monde.",
+    coverageText:
+      "Pour voyageurs, fondateurs, étudiants, travailleurs à distance et équipes internationales qui veulent Internet mobile sans friction.",
+    securityTitle: "Sécurité et confiance dès la conception.",
+    securityText:
+      "Identité, paiements, accès au compte et contrôles d’usage sont pensés pour être protégés dès le départ.",
+    comparisonTitle: "La complexité télécom traditionnelle, supprimée.",
+    pricingTitle: "Des prix simples après validation wholesale.",
+    faqTitle: "Questions avant lancement.",
+    finalTitle: "Installez une fois. Allez partout.",
+    finalText: "Le futur opérateur mobile est simple, intelligent et mondial.",
+    cards: [
+      ["eSIM persistante", "Installation unique et même profil mobile numérique."],
+      ["Opérateur IA", "Support, configuration et usage deviennent conversationnels."],
+      ["Pensé mondial", "Conçu pour la connectivité internationale dès le départ."],
+      ["Compte intelligent", "Un seul espace pour forfait, usage, appareils, paiement et support."],
+      ["Activation rapide", "Onboarding instantané et livraison digitale."],
+      ["Couche sécurisée", "Identité, paiement et sécurité du compte intégrés."],
+    ],
+    aiMessages: [
+      ["Utilisateur", "Je pars au Japon demain. Suis-je couvert ?"],
+      ["Invisible AI", "Oui. Votre eSIM est prête pour les réseaux compatibles. Aucun nouveau QR code requis."],
+      ["Utilisateur", "Pourquoi ma connexion est lente ?"],
+      ["Invisible AI", "J’ai vérifié votre usage et l’état réseau. Je peux vous guider vers la solution la plus rapide."],
+    ],
+    appCards: [
+      ["Connecté", "eSIM mondiale active"],
+      ["Data", "42,8 Go disponibles"],
+      ["Voyage", "Prochaine destination prête"],
+    ],
+    people: [
+      ["Fondateurs internationaux", "Restez connecté entre réunions, aéroports et pays."],
+      ["Travailleurs à distance", "Un seul compte pour travail, voyage et Internet mobile."],
+      ["Familles mondiales", "Une connectivité simple pour les personnes entre plusieurs pays."],
+    ],
+    securityItems: ["Vérification d’identité", "Paiement sécurisé", "Compte protégé", "Contrôles de confidentialité"],
+    comparison: {
+      oldTitle: "Opérateur classique",
+      newTitle: "Invisible Mobile",
+      old: ["Friction SIM physique", "Règles roaming", "Files support", "Forfaits complexes"],
+      next: ["Une eSIM", "Assistance IA", "Actions simples", "Compte mondial"],
+    },
+    plans: [
+      ["One", "Connectivité essentielle pour usage mondial léger."],
+      ["Global", "Pour utilisateurs internationaux et voyageurs réguliers."],
+      ["Ultra", "Pour usage plus élevé, télétravail et mobilité fréquente."],
+    ],
+    faq: [
+      ["Invisible Mobile est-il un opérateur classique ?", "C’est une plateforme de connectivité mobile pilotée par IA et alimentée par des partenaires d’infrastructure eSIM."],
+      ["Faut-il une SIM physique ?", "Non. La vision produit repose sur l’activation eSIM digitale pour appareils compatibles."],
+      ["Une seule eSIM fonctionnera-t-elle partout ?", "L’objectif est une eSIM persistante dans les destinations compatibles, selon les capacités des partenaires."],
+      ["Les prix sont-ils définitifs ?", "Non. Les prix finaux seront confirmés après validation des coûts wholesale et des conditions partenaires."],
+    ],
+    footer: {
+      description: "Plateforme mondiale de connectivité mobile pilotée par IA.",
+      columns: [
+        ["Produit", "Plateforme", "Opérateur IA", "Application", "Couverture"],
+        ["Entreprise", "À propos", "Partenaires", "Presse", "Contact"],
+        ["Légal", "Confidentialité", "Conditions", "Sécurité", "Cookies"],
+      ],
+    },
   },
 } as const;

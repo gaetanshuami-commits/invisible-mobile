@@ -2,7 +2,7 @@
 
 :root {
   --background: #f4f1e8;
-  --foreground: #000000;
+  --foreground: #070707;
 }
 
 @theme inline {
@@ -13,6 +13,7 @@
 }
 
 * { box-sizing: border-box; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -22,89 +23,155 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.hero-video-effect {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(16,185,129,.28), transparent 28%),
-    radial-gradient(circle at 80% 20%, rgba(37,99,235,.20), transparent 26%),
-    linear-gradient(120deg, rgba(255,255,255,.95), transparent 60%);
-  animation: heroVideo 8s ease-in-out infinite alternate;
+.video-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, transparent, black 18%, black 80%, transparent);
+  animation: gridDrift 18s linear infinite;
 }
 
-.phone-frame {
+.hero-orbit {
   position: absolute;
-  inset: 0;
-  margin: auto;
-  height: 640px;
-  width: 330px;
-  border-radius: 56px;
+  inset: 60px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  animation: orbitPulse 5s ease-in-out infinite;
+}
+
+.hero-orbit-two {
+  inset: 10px;
+  animation-delay: 1s;
+}
+
+.premium-phone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 650px;
+  width: 340px;
+  transform: translate(-50%, -50%);
+  border-radius: 58px;
   background: #050505;
   padding: 12px;
-  box-shadow: 0 45px 120px rgba(0,0,0,.30);
-  animation: phoneFloat 5s ease-in-out infinite;
+  box-shadow: 0 55px 160px rgba(0,0,0,.55);
+  animation: phoneFloat 6s ease-in-out infinite;
 }
 
-.phone-screen-pro {
+.phone-notch {
+  position: absolute;
+  left: 50%;
+  top: 22px;
+  z-index: 5;
+  height: 28px;
+  width: 100px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #050505;
+}
+
+.phone-display {
   position: relative;
   height: 100%;
   overflow: hidden;
-  border-radius: 44px;
+  border-radius: 46px;
   background: #111;
 }
 
-.animated-network {
+.glass-chip {
   position: absolute;
-  inset: -30%;
-  background:
-    linear-gradient(135deg, #050505, #13d68f, #1d4ed8, #050505),
-    repeating-linear-gradient(90deg, rgba(255,255,255,.12) 0 1px, transparent 1px 30px);
-  background-blend-mode: screen;
-  animation: networkVideo 10s linear infinite;
-}
-
-.phone-ui {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  padding: 24px;
-}
-
-.floating-card-pro {
-  position: absolute;
-  z-index: 10;
+  z-index: 20;
+  border: 1px solid rgba(255,255,255,.18);
   border-radius: 24px;
-  background: rgba(255,255,255,.86);
+  background: rgba(255,255,255,.13);
   padding: 16px 18px;
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 50px rgba(0,0,0,.14);
+  color: white;
+  backdrop-filter: blur(22px);
+  box-shadow: 0 25px 80px rgba(0,0,0,.35);
 }
 
-.floating-card-pro span {
+.glass-chip span {
   display: block;
   font-size: 11px;
   font-weight: 700;
-  color: rgba(0,0,0,.45);
+  color: rgba(255,255,255,.55);
 }
 
-.floating-card-pro strong {
+.glass-chip strong {
   display: block;
   margin-top: 4px;
   font-size: 18px;
 }
 
-.left-card {
-  left: 0;
-  top: 130px;
-  animation: floatCardOne 4s ease-in-out infinite;
+.chip-left {
+  left: 5%;
+  top: 150px;
+  animation: chipOne 4s ease-in-out infinite;
 }
 
-.right-card {
-  right: 0;
-  bottom: 150px;
-  animation: floatCardTwo 5s ease-in-out infinite;
+.chip-right {
+  right: 3%;
+  bottom: 170px;
+  animation: chipTwo 5s ease-in-out infinite;
+}
+
+.feature-card {
+  min-height: 330px;
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 34px;
+  background: rgba(255,255,255,.72);
+  padding: 32px;
+  transition: transform .35s ease, box-shadow .35s ease, background .35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  background: white;
+  box-shadow: 0 35px 90px rgba(0,0,0,.10);
+}
+
+.app-phone {
+  height: 620px;
+  border-radius: 54px;
+  background: #050505;
+  padding: 12px;
+  box-shadow: 0 45px 120px rgba(0,0,0,.18);
+}
+
+.app-display {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 42px;
+  background: black;
+}
+
+.comparison-card {
+  overflow: hidden;
+  border-radius: 44px;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(16,185,129,.32), transparent 28%),
+    #050505;
+  padding: 56px;
+}
+
+.price-card {
+  border: 1px solid rgba(0,0,0,.08);
+  border-radius: 38px;
+  background: white;
+  padding: 34px;
+}
+
+.price-featured {
+  background: #d8ff74;
+}
+
+.cta-scene {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,.65), transparent 25%),
+    radial-gradient(circle at 80% 30%, rgba(16,185,129,.50), transparent 30%),
+    #d8ff74;
 }
 
 .marquee {
@@ -113,29 +180,29 @@ body {
   animation: marquee 22s linear infinite;
 }
 
-@keyframes heroVideo {
-  from { transform: scale(1); filter: saturate(1); }
-  to { transform: scale(1.04); filter: saturate(1.35); }
+@keyframes gridDrift {
+  from { transform: translateY(0); }
+  to { transform: translateY(42px); }
 }
 
-@keyframes networkVideo {
-  from { transform: translateX(-10%) translateY(-10%) rotate(0deg); }
-  to { transform: translateX(10%) translateY(10%) rotate(360deg); }
+@keyframes orbitPulse {
+  0%, 100% { transform: scale(.94); opacity: .25; }
+  50% { transform: scale(1.08); opacity: .7; }
 }
 
 @keyframes phoneFloat {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50% { transform: translateY(-18px) rotate(2deg); }
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -22px; }
 }
 
-@keyframes floatCardOne {
+@keyframes chipOne {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-14px); }
+  50% { transform: translateY(-18px); }
 }
 
-@keyframes floatCardTwo {
+@keyframes chipTwo {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(16px); }
+  50% { transform: translateY(18px); }
 }
 
 @keyframes marquee {
