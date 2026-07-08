@@ -1,12 +1,12 @@
-﻿export type Lang = "en" | "fr";
+export type Lang = "en" | "fr" | "de";
 
 export const languages = [
   { code: "en", label: "EN" },
   { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
 ] as const;
 
-export const content = {
-  en: {
+const en = {
     brand: "Invisible Mobile",
     phoneDataLabel: "GLOBAL DATA",
     phoneNetworkText: "Connected across supported networks",
@@ -106,8 +106,9 @@ export const content = {
         ["Legal", "Privacy", "Terms", "Security", "Cookies"],
       ],
     },
-  },
-  fr: {
+};
+
+const fr = {
     brand: "Invisible Mobile",
     phoneDataLabel: "DATA MONDIALE",
     phoneNetworkText: "Connecté aux réseaux compatibles",
@@ -207,5 +208,39 @@ export const content = {
         ["Légal", "Confidentialité", "Conditions", "Sécurité", "Cookies"],
       ],
     },
+};
+
+export const content = {
+  en,
+  fr,
+  de: {
+    ...en,
+    nav: ["Plattform", "KI", "App", "Abdeckung", "Sicherheit", "Preise", "FAQ"],
+    heroKicker: "KI-gestützter globaler Mobilfunkanbieter",
+    heroTitle: "Eine eSIM. Eine KI. Überall verbunden.",
+    heroSubtitle: "Invisible Mobile ist eine mobile Plattform der nächsten Generation, bei der Nutzer eine eSIM einmal installieren und die KI Konnektivität, Reisen, Nutzung, Support und Kontoverwaltung übernimmt.",
+    primaryCta: "Frühen Zugang anfragen",
+    secondaryCta: "Erlebnis ansehen",
+    heroStats: ["184 Länder bereit", "Aktivierung in 60 Sekunden", "KI-Support 24/7"],
+    phoneDataLabel: "GLOBALE DATEN",
+    phoneNetworkText: "Mit unterstützten Netzwerken verbunden",
+    phoneAiLabel: "INVISIBLE KI",
+    phoneAiText: "Ihre Verbindung ist bereit. Nichts zu konfigurieren.",
+    chipNetworkLabel: "Netzwerk",
+    chipNetworkValue: "5G bereit",
+    chipAiLabel: "KI-Aktion",
+    chipAiValue: "Automatische Einrichtung",
+    marquee: "EINE ESIM · EIN KONTO · KI-OPERATOR · GLOBALE KONNEKTIVITÄT · SOFORTIGE AKTIVIERUNG · NULL KOMPLEXITÄT ·",
+    platformEyebrow: "Plattform",
+    aiEyebrow: "KI-Operator",
+    appEyebrow: "Anwendung",
+    appReadyText: "Jetzt bereit.",
+    coverageEyebrow: "Globale Mobilität",
+    securityEyebrow: "Sicherheit",
+    comparisonEyebrow: "Vergleich",
+    pricingEyebrow: "Preise",
+    pricingNote: "Wholesale-Validierung erforderlich",
+    faqEyebrow: "FAQ",
+    footerTagline: "KI-gestützte globale mobile Konnektivität.",
   },
 } as const;
