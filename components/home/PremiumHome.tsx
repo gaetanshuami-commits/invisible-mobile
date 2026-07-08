@@ -60,8 +60,8 @@ export default function PremiumHome() {
       </nav>
 
       <section className="relative min-h-screen overflow-hidden bg-black px-6 pt-32 text-white">
-        <video className="absolute inset-0 h-full w-full object-cover opacity-55" autoPlay muted loop playsInline src={heroVideo} />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(16,185,129,.35),transparent_28%),linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.55),rgba(0,0,0,.82))]" />
+        <video className="absolute inset-0 h-full w-full object-cover opacity-100" autoPlay muted loop playsInline src={heroVideo} />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_25%,rgba(16,185,129,.35),transparent_28%),linear-gradient(90deg,rgba(0,0,0,.25),rgba(0,0,0,.05),rgba(0,0,0,.15))]" />
         <div className="absolute inset-0 video-grid" />
 
         <div className="relative mx-auto grid min-h-[820px] max-w-[1480px] items-center gap-16 lg:grid-cols-[1.02fr_.98fr]">
@@ -230,9 +230,9 @@ export default function PremiumHome() {
         <div className="mt-16 grid gap-6 lg:grid-cols-3">
           {peoplePhotos.map((src, index) => (
             <motion.article {...reveal} key={src} className="group relative h-[590px] overflow-hidden rounded-[40px]">
-              <img src={src} alt={t.people[index][0]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-              <div className="absolute bottom-0 p-8 text-white">
+              <img key={`${src}-image`} src={src} alt={t.people[index][0]} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+              <div key={`${src}-overlay`} className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              <div key={`${src}-content`} className="absolute bottom-0 p-8 text-white">
                 <h3 className="text-3xl font-semibold tracking-[-.04em]">{t.people[index][0]}</h3>
                 <p className="mt-3 max-w-sm text-white/65">{t.people[index][1]}</p>
               </div>
@@ -343,3 +343,8 @@ export default function PremiumHome() {
     </main>
   );
 }
+
+
+
+
+
