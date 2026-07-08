@@ -37,7 +37,7 @@ export default function PremiumHome() {
     <main className="overflow-hidden bg-[#f4f1e8] text-[#070707]">
       <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/45 text-white backdrop-blur-2xl">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between px-6 py-4">
-          <a className="text-xl font-semibold tracking-[-0.04em]" href="#">Invisible Mobile</a>
+          <a className="text-xl font-semibold tracking-[-0.04em]" href="#">{t.brand}</a>
 
           <div className="hidden gap-7 text-sm font-medium text-white/65 lg:flex">
             {t.nav.map((item, index) => (
@@ -105,35 +105,35 @@ export default function PremiumHome() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/10" />
                 <div className="relative z-10 flex h-full flex-col p-6">
                   <div className="flex justify-between text-xs font-semibold text-white/80">
-                    <span>Invisible Mobile</span>
+                    <span>{t.brand}</span>
                     <span>5G</span>
                   </div>
 
                   <div className="mt-auto rounded-[30px] bg-white/92 p-6 text-black backdrop-blur-2xl">
-                    <p className="text-xs font-semibold text-black/40">GLOBAL DATA</p>
+                    <p className="text-xs font-semibold text-black/40">{t.phoneDataLabel}</p>
                     <p className="mt-2 text-6xl font-semibold tracking-[-.07em]">42.8 GB</p>
                     <div className="mt-5 h-2 overflow-hidden rounded-full bg-black/10">
                       <div className="h-full w-[76%] rounded-full bg-black" />
                     </div>
-                    <p className="mt-3 text-xs text-black/45">Connected across supported networks</p>
+                    <p className="mt-3 text-xs text-black/45">{t.phoneNetworkText}</p>
                   </div>
 
                   <div className="mt-3 rounded-[30px] bg-black/82 p-6 text-white backdrop-blur-2xl">
-                    <p className="text-xs text-white/40">INVISIBLE AI</p>
-                    <p className="mt-2 text-xl font-semibold leading-6">Your connectivity is ready. Nothing to configure.</p>
+                    <p className="text-xs text-white/40">{t.phoneAiLabel}</p>
+                    <p className="mt-2 text-xl font-semibold leading-6">{t.phoneAiText}</p>
                   </div>
                 </div>
               </div>
             </motion.div>
 
             <div className="glass-chip chip-left">
-              <span>Network</span>
-              <strong>5G Ready</strong>
+              <span>{t.chipNetworkLabel}</span>
+              <strong>{t.chipNetworkValue}</strong>
             </div>
 
             <div className="glass-chip chip-right">
-              <span>AI action</span>
-              <strong>Auto setup</strong>
+              <span>{t.chipAiLabel}</span>
+              <strong>{t.chipAiValue}</strong>
             </div>
           </div>
         </div>
@@ -141,14 +141,14 @@ export default function PremiumHome() {
 
       <section className="overflow-hidden border-y border-black/10 bg-black py-5 text-white">
         <div className="marquee text-2xl font-semibold">
-          ONE ESIM · ONE ACCOUNT · AI OPERATOR · GLOBAL CONNECTIVITY · INSTANT ACTIVATION · ZERO COMPLEXITY ·
+          {t.marquee}
         </div>
       </section>
 
       <section id="section-0" className="mx-auto max-w-[1480px] px-6 py-32">
         <motion.div {...reveal} className="grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">Platform</p>
+            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.platformEyebrow}</p>
             <h2 className="mt-5 text-5xl font-semibold leading-[.95] tracking-[-.06em] sm:text-8xl">{t.platformTitle}</h2>
           </div>
           <p className="max-w-2xl self-end text-xl leading-9 text-black/55">{t.platformText}</p>
@@ -172,7 +172,7 @@ export default function PremiumHome() {
         <div className="mx-auto max-w-[1480px] overflow-hidden rounded-[52px] bg-black p-8 text-white sm:p-16">
           <div className="grid gap-16 lg:grid-cols-2">
             <motion.div {...reveal}>
-              <p className="text-sm font-semibold uppercase tracking-[.22em] text-white/40">AI Operator</p>
+              <p className="text-sm font-semibold uppercase tracking-[.22em] text-white/40">{t.aiEyebrow}</p>
               <h2 className="mt-5 text-5xl font-semibold leading-[.95] tracking-[-.06em] sm:text-7xl">{t.aiTitle}</h2>
               <p className="mt-7 max-w-xl text-lg leading-8 text-white/55">{t.aiText}</p>
             </motion.div>
@@ -192,7 +192,7 @@ export default function PremiumHome() {
       <section id="section-2" className="mx-auto max-w-[1480px] px-6 py-32">
         <motion.div {...reveal} className="grid gap-10 lg:grid-cols-[1fr_.8fr]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">Application</p>
+            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.appEyebrow}</p>
             <h2 className="mt-5 text-5xl font-semibold leading-[.95] tracking-[-.06em] sm:text-8xl">{t.appTitle}</h2>
           </div>
           <p className="self-end text-xl leading-9 text-black/55">{t.appText}</p>
@@ -209,7 +209,7 @@ export default function PremiumHome() {
                   <h3 className="mt-2 text-4xl font-semibold tracking-[-.05em]">{title}</h3>
                   <div className="mt-auto rounded-[30px] bg-white/92 p-6 text-black backdrop-blur-xl">
                     <p className="text-sm text-black/45">{text}</p>
-                    <p className="mt-3 text-2xl font-semibold">Ready now.</p>
+                    <p className="mt-3 text-2xl font-semibold">{t.appReadyText}</p>
                   </div>
                 </div>
               </div>
@@ -221,7 +221,7 @@ export default function PremiumHome() {
       <section id="section-3" className="mx-auto max-w-[1480px] px-6 py-32">
         <motion.div {...reveal} className="grid gap-10 lg:grid-cols-[.95fr_1.05fr]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">Global mobility</p>
+            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.coverageEyebrow}</p>
             <h2 className="mt-5 text-5xl font-semibold leading-[.95] tracking-[-.06em] sm:text-8xl">{t.coverageTitle}</h2>
           </div>
           <p className="self-end text-xl leading-9 text-black/55">{t.coverageText}</p>
@@ -244,7 +244,7 @@ export default function PremiumHome() {
       <section id="section-4" className="mx-auto max-w-[1480px] px-6 py-32">
         <div className="grid gap-6 lg:grid-cols-2">
           <motion.div {...reveal} className="rounded-[44px] bg-[#dedbd2] p-10 sm:p-14">
-            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">Security</p>
+            <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.securityEyebrow}</p>
             <h2 className="mt-5 text-5xl font-semibold tracking-[-.06em]">{t.securityTitle}</h2>
             <p className="mt-6 leading-8 text-black/55">{t.securityText}</p>
             <div className="mt-14 space-y-4">
@@ -258,7 +258,7 @@ export default function PremiumHome() {
           </motion.div>
 
           <motion.div {...reveal} className="comparison-card">
-            <p className="text-sm font-semibold uppercase tracking-[.22em] text-white/40">Comparison</p>
+            <p className="text-sm font-semibold uppercase tracking-[.22em] text-white/40">{t.comparisonEyebrow}</p>
             <h2 className="mt-5 text-5xl font-semibold tracking-[-.06em] text-white">{t.comparisonTitle}</h2>
             <div className="mt-14 grid grid-cols-2 gap-4">
               <div className="rounded-[28px] bg-white/10 p-6 text-white/55">
@@ -276,7 +276,7 @@ export default function PremiumHome() {
 
       <section id="pricing" className="mx-auto max-w-[1480px] px-6 py-32">
         <motion.div {...reveal} className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">Pricing</p>
+          <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.pricingEyebrow}</p>
           <h2 className="mx-auto mt-5 max-w-5xl text-5xl font-semibold tracking-[-.06em] sm:text-8xl">{t.pricingTitle}</h2>
         </motion.div>
 
@@ -285,7 +285,7 @@ export default function PremiumHome() {
             <motion.article {...reveal} key={name} className={index === 1 ? "price-card price-featured" : "price-card"}>
               <p className="text-3xl font-semibold">{name}</p>
               <p className="mt-4 text-black/50">{description}</p>
-              <p className="mt-16 text-sm text-black/40">Wholesale validation required</p>
+              <p className="mt-16 text-sm text-black/40">{t.pricingNote}</p>
               <button className="mt-8 w-full rounded-full bg-black py-4 text-sm font-semibold text-white">{t.primaryCta}</button>
             </motion.article>
           ))}
@@ -294,7 +294,7 @@ export default function PremiumHome() {
 
       <section id="section-6" className="mx-auto max-w-5xl px-6 py-32">
         <motion.div {...reveal} className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">FAQ</p>
+          <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">{t.faqEyebrow}</p>
           <h2 className="mt-5 text-5xl font-semibold tracking-[-.06em] sm:text-7xl">{t.faqTitle}</h2>
         </motion.div>
 
@@ -336,7 +336,7 @@ export default function PremiumHome() {
 
           <div className="mt-16 flex flex-col justify-between gap-4 border-t border-black/10 pt-8 text-sm text-black/40 sm:flex-row">
             <p>© 2026 Invisible Mobile.</p>
-            <p>AI-powered global mobile connectivity.</p>
+            <p>{t.footerTagline}</p>
           </div>
         </div>
       </footer>
