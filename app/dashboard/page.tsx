@@ -14,8 +14,14 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("email, first_name, last_name, role")
+    .eq("id", user.id)
+    .single();
+
   return (
-    <DashboardShell email={user.email}>
+    <DashboardShell email={profile?.email ?? user.email}>
       <LogoutButton />
     </DashboardShell>
   );
