@@ -14,7 +14,7 @@ const sections = [
   { label: "Voyages", href: "/dashboard/trips" },
   { label: "Paiements", href: "/dashboard/payments" },
   { label: "Factures", href: "/dashboard/invoices" },
-  { label: "Appareils" },
+  { label: "Appareils", href: "/dashboard/devices" },
   { label: "AI Operator" },
   { label: "Support" },
   { label: "Paramètres" },
@@ -61,6 +61,7 @@ export default function DashboardShell({ email, children }: DashboardShellProps)
     </main>
   );
 }
+
 
 
 
