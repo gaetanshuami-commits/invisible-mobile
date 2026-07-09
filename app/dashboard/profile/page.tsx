@@ -72,65 +72,59 @@ export default function ProfilePage() {
   }
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-[#f4f1e8] px-6 py-24 text-[#070707]">
-        Chargement du profil...
-      </main>
-    );
+    return <p>Chargement du profil...</p>;
   }
 
   return (
-    <main className="min-h-screen bg-[#f4f1e8] px-6 py-24 text-[#070707]">
-      <div className="mx-auto max-w-xl rounded-[32px] bg-white p-8 shadow-sm">
-        <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">
-          Invisible Mobile
-        </p>
+    <>
+      <p className="text-sm font-semibold uppercase tracking-[.22em] text-black/40">
+        Espace client
+      </p>
 
-        <h1 className="mt-4 text-4xl font-semibold tracking-[-.06em]">
-          Profil
-        </h1>
+      <h1 className="mt-4 text-5xl font-semibold tracking-[-.06em]">
+        Profil
+      </h1>
 
-        <p className="mt-4 text-black/50">{email}</p>
+      <p className="mt-4 text-black/50">{email}</p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          <div>
-            <label className="text-sm font-semibold">Prénom</label>
-            <input
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
-            />
-          </div>
+      <form onSubmit={handleSubmit} className="mt-8 max-w-xl space-y-5">
+        <div>
+          <label className="text-sm font-semibold">Prénom</label>
+          <input
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
+          />
+        </div>
 
-          <div>
-            <label className="text-sm font-semibold">Nom</label>
-            <input
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
-            />
-          </div>
+        <div>
+          <label className="text-sm font-semibold">Nom</label>
+          <input
+            value={lastName}
+            onChange={(event) => setLastName(event.target.value)}
+            className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
+          />
+        </div>
 
-          <div>
-            <label className="text-sm font-semibold">Téléphone</label>
-            <input
-              value={phone}
-              onChange={(event) => setPhone(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
-            />
-          </div>
+        <div>
+          <label className="text-sm font-semibold">Téléphone</label>
+          <input
+            value={phone}
+            onChange={(event) => setPhone(event.target.value)}
+            className="mt-2 w-full rounded-2xl border border-black/10 bg-[#f4f1e8] px-4 py-4 outline-none"
+          />
+        </div>
 
-          <button
-            type="submit"
-            disabled={saving}
-            className="w-full rounded-full bg-black px-8 py-4 text-sm font-semibold text-white disabled:opacity-50"
-          >
-            {saving ? "Enregistrement..." : "Enregistrer"}
-          </button>
-        </form>
+        <button
+          type="submit"
+          disabled={saving}
+          className="w-full rounded-full bg-black px-8 py-4 text-sm font-semibold text-white disabled:opacity-50"
+        >
+          {saving ? "Enregistrement..." : "Enregistrer"}
+        </button>
+      </form>
 
-        {message && <p className="mt-5 text-sm text-black/60">{message}</p>}
-      </div>
-    </main>
+      {message && <p className="mt-5 text-sm text-black/60">{message}</p>}
+    </>
   );
 }
