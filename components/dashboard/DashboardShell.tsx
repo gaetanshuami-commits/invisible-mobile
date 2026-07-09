@@ -11,7 +11,7 @@ const sections = [
   { label: "Mes eSIM", href: "/dashboard/esims" },
   { label: "Consommation data", href: "/dashboard/usage" },
   { label: "Forfaits", href: "/dashboard/plans" },
-  { label: "Voyages" },
+  { label: "Voyages", href: "/dashboard/trips" },
   { label: "Paiements" },
   { label: "Factures" },
   { label: "Appareils" },
@@ -61,4 +61,5 @@ export default function DashboardShell({ email, children }: DashboardShellProps)
     </main>
   );
 }
+
 
