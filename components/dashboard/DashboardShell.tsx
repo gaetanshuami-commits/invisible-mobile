@@ -12,7 +12,7 @@ const sections = [
   { label: "Consommation data", href: "/dashboard/usage" },
   { label: "Forfaits", href: "/dashboard/plans" },
   { label: "Voyages", href: "/dashboard/trips" },
-  { label: "Paiements" },
+  { label: "Paiements", href: "/dashboard/payments" },
   { label: "Factures" },
   { label: "Appareils" },
   { label: "AI Operator" },
@@ -61,5 +61,6 @@ export default function DashboardShell({ email, children }: DashboardShellProps)
     </main>
   );
 }
+
 
 
