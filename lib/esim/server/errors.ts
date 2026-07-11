@@ -1,4 +1,6 @@
-﻿export type EsimServerErrorCode =
+﻿import { EsimProviderNotConfiguredError } from "../provider";
+
+export type EsimServerErrorCode =
   | "UNAUTHORIZED"
   | "INVALID_INPUT"
   | "PROVIDER_NOT_CONFIGURED"
@@ -32,6 +34,15 @@ export function normalizeEsimServerError(
 ): EsimServerError {
   if (error instanceof EsimServerError) {
     return error;
+  }
+
+  if (error instanceof EsimProviderNotConfiguredError) {
+    return new EsimServerError(
+      "PROVIDER_NOT_CONFIGURED",
+      "The eSIM provider is not configured.",
+      503,
+      error
+    );
   }
 
   if (error instanceof Error) {
