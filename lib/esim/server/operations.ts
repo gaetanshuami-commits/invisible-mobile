@@ -1,4 +1,4 @@
-﻿import "server-only";
+import "server-only";
 
 import { createAdminClient } from "@/lib/supabase/admin";
 import type {
@@ -455,21 +455,25 @@ export async function confirmAndExecuteEsimOperation(
 
   const now = new Date().toISOString();
 
-  const { error: confirmationError } =
-    await admin
-      .from("esim_operations")
-      .update({
-        status: "executing",
-        confirmed_at: now,
-        executing_at: now,
-        updated_at: now,
-      })
-      .eq("id", operation.id)
-      .eq("user_id", user.id)
-      .in("status", [
-        "pending",
-        "awaiting_confirmation",
-      ]);
+  const {
+    data: claimedOperation,
+    error: confirmationError,
+  } = await admin
+    .from("esim_operations")
+    .update({
+      status: "executing",
+      confirmed_at: now,
+      executing_at: now,
+      updated_at: now,
+    })
+    .eq("id", operation.id)
+    .eq("user_id", user.id)
+    .in("status", [
+      "pending",
+      "awaiting_confirmation",
+    ])
+    .select("id")
+    .maybeSingle();
 
   if (confirmationError) {
     throw new EsimServerError(
@@ -477,6 +481,14 @@ export async function confirmAndExecuteEsimOperation(
       "Unable to confirm the eSIM operation.",
       500,
       confirmationError
+    );
+  }
+
+  if (!claimedOperation) {
+    throw new EsimServerError(
+      "INVALID_INPUT",
+      "This eSIM operation is already being processed or is no longer awaiting confirmation.",
+      409
     );
   }
 
