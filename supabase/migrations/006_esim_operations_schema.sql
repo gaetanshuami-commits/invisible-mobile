@@ -1,4 +1,4 @@
-﻿-- Invisible Mobile
+-- Invisible Mobile
 -- Secure eSIM operations schema
 
 create table public.esim_operations (
