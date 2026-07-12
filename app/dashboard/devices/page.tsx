@@ -20,6 +20,7 @@ export default function DevicesPage() {
 
   const [userId, setUserId] = useState("");
   const [devices, setDevices] = useState<Device[]>([]);
+  const [editingDeviceId, setEditingDeviceId] = useState<string | null>(null);
   const [manufacturer, setManufacturer] = useState("");
   const [model, setModel] = useState("");
   const [operatingSystem, setOperatingSystem] = useState("");
@@ -28,6 +29,7 @@ export default function DevicesPage() {
   const [isPrimary, setIsPrimary] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [actionDeviceId, setActionDeviceId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
 
   const loadDevices = useCallback(
@@ -71,17 +73,59 @@ export default function DevicesPage() {
     initialize();
   }, [loadDevices, supabase]);
 
+  function resetForm() {
+    setEditingDeviceId(null);
+    setManufacturer("");
+    setModel("");
+    setOperatingSystem("");
+    setOperatingSystemVersion("");
+    setEsimCompatible("");
+    setIsPrimary(false);
+  }
+
+  function startEditing(device: Device) {
+    setEditingDeviceId(device.id);
+    setManufacturer(device.manufacturer ?? "");
+    setModel(device.model);
+    setOperatingSystem(device.operating_system ?? "");
+    setOperatingSystemVersion(device.operating_system_version ?? "");
+    setEsimCompatible(
+      device.esim_compatible === true
+        ? "yes"
+        : device.esim_compatible === false
+          ? "no"
+          : ""
+    );
+    setIsPrimary(device.is_primary);
+    setMessage("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function clearOtherPrimaryDevices(excludedDeviceId?: string) {
+    let query = supabase
+      .from("devices")
+      .update({ is_primary: false })
+      .eq("user_id", userId);
+
+    if (excludedDeviceId) {
+      query = query.neq("id", excludedDeviceId);
+    }
+
+    return query;
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!userId || !model.trim()) return;
 
     setSaving(true);
     setMessage("");
 
     if (isPrimary) {
-      const { error: primaryError } = await supabase
-        .from("devices")
-        .update({ is_primary: false })
-        .eq("user_id", userId);
+      const { error: primaryError } = await clearOtherPrimaryDevices(
+        editingDeviceId ?? undefined
+      );
 
       if (primaryError) {
         setMessage(primaryError.message);
@@ -97,15 +141,26 @@ export default function DevicesPage() {
           ? false
           : null;
 
-    const { error } = await supabase.from("devices").insert({
-      user_id: userId,
+    const values = {
       manufacturer: manufacturer.trim() || null,
       model: model.trim(),
       operating_system: operatingSystem.trim() || null,
       operating_system_version: operatingSystemVersion.trim() || null,
       esim_compatible: compatibility,
       is_primary: isPrimary,
-    });
+      updated_at: new Date().toISOString(),
+    };
+
+    const { error } = editingDeviceId
+      ? await supabase
+          .from("devices")
+          .update(values)
+          .eq("id", editingDeviceId)
+          .eq("user_id", userId)
+      : await supabase.from("devices").insert({
+          ...values,
+          user_id: userId,
+        });
 
     if (error) {
       setMessage(error.message);
@@ -113,16 +168,80 @@ export default function DevicesPage() {
       return;
     }
 
-    setManufacturer("");
-    setModel("");
-    setOperatingSystem("");
-    setOperatingSystemVersion("");
-    setEsimCompatible("");
-    setIsPrimary(false);
-    setMessage("Appareil ajouté.");
+    setMessage(
+      editingDeviceId ? "Appareil modifié." : "Appareil ajouté."
+    );
 
+    resetForm();
     await loadDevices(userId);
     setSaving(false);
+  }
+
+  async function handleSetPrimary(deviceId: string) {
+    if (!userId) return;
+
+    setActionDeviceId(deviceId);
+    setMessage("");
+
+    const { error: clearError } = await clearOtherPrimaryDevices(deviceId);
+
+    if (clearError) {
+      setMessage(clearError.message);
+      setActionDeviceId(null);
+      return;
+    }
+
+    const { error } = await supabase
+      .from("devices")
+      .update({
+        is_primary: true,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", deviceId)
+      .eq("user_id", userId);
+
+    if (error) {
+      setMessage(error.message);
+      setActionDeviceId(null);
+      return;
+    }
+
+    setMessage("Appareil principal mis à jour.");
+    await loadDevices(userId);
+    setActionDeviceId(null);
+  }
+
+  async function handleDelete(device: Device) {
+    if (!userId) return;
+
+    const confirmed = window.confirm(
+      `Supprimer l’appareil "${device.model}" ?`
+    );
+
+    if (!confirmed) return;
+
+    setActionDeviceId(device.id);
+    setMessage("");
+
+    const { error } = await supabase
+      .from("devices")
+      .delete()
+      .eq("id", device.id)
+      .eq("user_id", userId);
+
+    if (error) {
+      setMessage(error.message);
+      setActionDeviceId(null);
+      return;
+    }
+
+    if (editingDeviceId === device.id) {
+      resetForm();
+    }
+
+    setMessage("Appareil supprimé.");
+    await loadDevices(userId);
+    setActionDeviceId(null);
   }
 
   function compatibilityLabel(value: boolean | null) {
@@ -160,11 +279,13 @@ export default function DevicesPage() {
           className="rounded-[28px] bg-[#f4f1e8] p-6"
         >
           <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/40">
-            Nouvel appareil
+            {editingDeviceId ? "Modification" : "Nouvel appareil"}
           </p>
 
           <h2 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
-            Ajouter un équipement
+            {editingDeviceId
+              ? "Modifier l’équipement"
+              : "Ajouter un équipement"}
           </h2>
 
           <div className="mt-6 space-y-5">
@@ -191,9 +312,7 @@ export default function DevicesPage() {
 
             <div className="grid gap-5 md:grid-cols-2">
               <div>
-                <label className="text-sm font-semibold">
-                  Système
-                </label>
+                <label className="text-sm font-semibold">Système</label>
                 <input
                   value={operatingSystem}
                   onChange={(event) =>
@@ -205,9 +324,7 @@ export default function DevicesPage() {
               </div>
 
               <div>
-                <label className="text-sm font-semibold">
-                  Version
-                </label>
+                <label className="text-sm font-semibold">Version</label>
                 <input
                   value={operatingSystemVersion}
                   onChange={(event) =>
@@ -252,8 +369,23 @@ export default function DevicesPage() {
               disabled={saving || !userId}
               className="w-full rounded-full bg-black px-8 py-4 text-sm font-semibold text-white disabled:opacity-50"
             >
-              {saving ? "Ajout en cours..." : "Ajouter l’appareil"}
+              {saving
+                ? "Enregistrement..."
+                : editingDeviceId
+                  ? "Enregistrer les modifications"
+                  : "Ajouter l’appareil"}
             </button>
+
+            {editingDeviceId && (
+              <button
+                type="button"
+                onClick={resetForm}
+                disabled={saving}
+                className="w-full rounded-full border border-black/10 bg-white px-8 py-4 text-sm font-semibold disabled:opacity-50"
+              >
+                Annuler la modification
+              </button>
+            )}
           </div>
         </form>
 
@@ -291,42 +423,82 @@ export default function DevicesPage() {
             </div>
           ) : (
             <div className="mt-6 space-y-4">
-              {devices.map((device) => (
-                <article
-                  key={device.id}
-                  className="rounded-[28px] border border-black/5 bg-[#f4f1e8] p-6"
-                >
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-sm font-semibold uppercase tracking-[.14em] text-black/40">
-                          {device.manufacturer ?? "Appareil"}
-                        </p>
+              {devices.map((device) => {
+                const actionLoading = actionDeviceId === device.id;
 
-                        {device.is_primary && (
-                          <span className="rounded-full bg-black px-3 py-1 text-xs font-semibold text-white">
-                            Principal
-                          </span>
-                        )}
+                return (
+                  <article
+                    key={device.id}
+                    className="rounded-[28px] border border-black/5 bg-[#f4f1e8] p-6"
+                  >
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-semibold uppercase tracking-[.14em] text-black/40">
+                            {device.manufacturer ?? "Appareil"}
+                          </p>
+
+                          {device.is_primary && (
+                            <span className="rounded-full bg-black px-3 py-1 text-xs font-semibold text-white">
+                              Principal
+                            </span>
+                          )}
+                        </div>
+
+                        <h3 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
+                          {device.model}
+                        </h3>
+
+                        <p className="mt-3 text-sm text-black/50">
+                          {[
+                            device.operating_system,
+                            device.operating_system_version,
+                          ]
+                            .filter(Boolean)
+                            .join(" ") || "Système non renseigné"}
+                        </p>
                       </div>
 
-                      <h3 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
-                        {device.model}
-                      </h3>
-
-                      <p className="mt-3 text-sm text-black/50">
-                        {[device.operating_system, device.operating_system_version]
-                          .filter(Boolean)
-                          .join(" ") || "Système non renseigné"}
-                      </p>
+                      <span className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold text-black/60">
+                        {compatibilityLabel(device.esim_compatible)}
+                      </span>
                     </div>
 
-                    <span className="inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold text-black/60">
-                      {compatibilityLabel(device.esim_compatible)}
-                    </span>
-                  </div>
-                </article>
-              ))}
+                    <div className="mt-6 flex flex-wrap gap-3 border-t border-black/5 pt-5">
+                      <button
+                        type="button"
+                        onClick={() => startEditing(device)}
+                        disabled={actionLoading || saving}
+                        className="rounded-full bg-white px-5 py-3 text-xs font-semibold disabled:opacity-50"
+                      >
+                        Modifier
+                      </button>
+
+                      {!device.is_primary && (
+                        <button
+                          type="button"
+                          onClick={() => handleSetPrimary(device.id)}
+                          disabled={actionLoading || saving}
+                          className="rounded-full bg-black px-5 py-3 text-xs font-semibold text-white disabled:opacity-50"
+                        >
+                          {actionLoading
+                            ? "Mise à jour..."
+                            : "Définir comme principal"}
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(device)}
+                        disabled={actionLoading || saving}
+                        className="rounded-full border border-black/10 px-5 py-3 text-xs font-semibold text-black/50 disabled:opacity-50"
+                      >
+                        {actionLoading ? "Traitement..." : "Supprimer"}
+                      </button>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>
