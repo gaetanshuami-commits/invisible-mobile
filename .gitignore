@@ -42,3 +42,5 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+backups/devices-management-20260712-232800/
