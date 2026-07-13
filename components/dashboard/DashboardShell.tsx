@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { ReactNode } from "react";
 
 type DashboardShellProps = {
@@ -17,11 +17,14 @@ const sections = [
   { label: "Appareils", href: "/dashboard/devices" },
   { label: "AI Operator", href: "/dashboard/ai-operator" },
   { label: "Support", href: "/dashboard/support" },
-  { label: "Paramètres" },
+  { label: "Paramètres", href: "/dashboard/settings" },
   { label: "Profil", href: "/dashboard/profile" },
 ];
 
-export default function DashboardShell({ email, children }: DashboardShellProps) {
+export default function DashboardShell({
+  email,
+  children,
+}: DashboardShellProps) {
   return (
     <main className="min-h-screen bg-[#f4f1e8] px-6 py-8 text-[#070707]">
       <div className="mx-auto grid max-w-[1480px] gap-6 lg:grid-cols-[280px_1fr]">
@@ -33,24 +36,15 @@ export default function DashboardShell({ email, children }: DashboardShellProps)
           <p className="mt-3 text-sm text-white/45">{email}</p>
 
           <nav className="mt-8 space-y-2">
-            {sections.map((section) =>
-              section.href ? (
-                <Link
-                  key={section.label}
-                  href={section.href}
-                  className="block w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold text-white/65 hover:bg-white/10 hover:text-white"
-                >
-                  {section.label}
-                </Link>
-              ) : (
-                <span
-                  key={section.label}
-                  className="block w-full cursor-default rounded-2xl px-4 py-3 text-left text-sm font-semibold text-white/35"
-                >
-                  {section.label}
-                </span>
-              )
-            )}
+            {sections.map((section) => (
+              <Link
+                key={section.label}
+                href={section.href}
+                className="block w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold text-white/65 hover:bg-white/10 hover:text-white"
+              >
+                {section.label}
+              </Link>
+            ))}
           </nav>
         </aside>
 
