@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 type DashboardShellProps = {
@@ -16,7 +16,7 @@ const sections = [
   { label: "Factures", href: "/dashboard/invoices" },
   { label: "Appareils", href: "/dashboard/devices" },
   { label: "AI Operator", href: "/dashboard/ai-operator" },
-  { label: "Support" },
+  { label: "Support", href: "/dashboard/support" },
   { label: "Paramètres" },
   { label: "Profil", href: "/dashboard/profile" },
 ];
@@ -61,9 +61,3 @@ export default function DashboardShell({ email, children }: DashboardShellProps)
     </main>
   );
 }
-
-
-
-
-
-
