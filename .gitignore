@@ -44,3 +44,5 @@ next-env.d.ts
 .env*.local
 
 backups/devices-management-20260712-232800/
+
+backups/ai-operator-before-data-balance-20260713-222812/
