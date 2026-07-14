@@ -1,4 +1,5 @@
-﻿import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
+import AiOperatorChat from "@/components/dashboard/ai-operator/AiOperatorChat";
 
 export default async function AiOperatorPage() {
   const supabase = await createClient();
@@ -7,15 +8,16 @@ export default async function AiOperatorPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const [{ data: logs }, { data: actions }] = await Promise.all([
+  const [{ data: logs }, { data: actions }, { data: settings }] = await Promise.all([
     supabase
       .from("ai_operator_logs")
       .select(
         "id, conversation_id, role, content, model, latency_ms, created_at"
       )
       .eq("user_id", user!.id)
+      .in("role", ["user", "assistant"])
       .order("created_at", { ascending: false })
-      .limit(20),
+      .limit(40),
 
     supabase
       .from("ai_operator_actions")
@@ -25,7 +27,31 @@ export default async function AiOperatorPage() {
       .eq("user_id", user!.id)
       .order("created_at", { ascending: false })
       .limit(20),
+
+    supabase
+      .from("user_settings")
+      .select("language")
+      .eq("user_id", user!.id)
+      .maybeSingle(),
   ]);
+
+  const latestConversationId =
+    logs?.[0]?.conversation_id ?? null;
+
+  const conversationMessages = latestConversationId
+    ? (logs ?? [])
+        .filter(
+          (log) =>
+            log.conversation_id === latestConversationId
+        )
+        .reverse()
+        .map((log) => ({
+          id: log.id,
+          role: log.role as "user" | "assistant",
+          content: log.content,
+          created_at: log.created_at,
+        }))
+    : [];
 
   const pendingActions =
     actions?.filter(
@@ -35,7 +61,9 @@ export default async function AiOperatorPage() {
     ).length ?? 0;
 
   const executedActions =
-    actions?.filter((action) => action.status === "executed").length ?? 0;
+    actions?.filter(
+      (action) => action.status === "executed"
+    ).length ?? 0;
 
   function formatDate(date: string | null) {
     if (!date) {
@@ -78,16 +106,16 @@ export default async function AiOperatorPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-black/50">
-            Une interface conçue pour assister la gestion de vos services,
-            analyser votre contexte et préparer des actions contrôlées.
+            Analysez les informations disponibles dans votre compte
+            et échangez avec votre opérateur intelligent sécurisé.
           </p>
         </div>
 
         <div className="inline-flex items-center gap-3 rounded-full border border-black/10 px-5 py-3">
-          <span className="h-2 w-2 rounded-full bg-black/30" />
+          <span className="h-2 w-2 rounded-full bg-black" />
 
-          <span className="text-sm font-semibold text-black/50">
-            Moteur IA non connecté
+          <span className="text-sm font-semibold text-black/60">
+            Moteur IA connecté
           </span>
         </div>
       </div>
@@ -95,7 +123,7 @@ export default async function AiOperatorPage() {
       <div className="mt-10 grid gap-5 md:grid-cols-3">
         <div className="rounded-[28px] bg-[#f4f1e8] p-6">
           <p className="text-sm font-medium text-black/45">
-            Conversations
+            Messages enregistrés
           </p>
 
           <p className="mt-4 text-3xl font-semibold tracking-[-.04em]">
@@ -125,80 +153,25 @@ export default async function AiOperatorPage() {
       </div>
 
       <div className="mt-10 grid gap-6 xl:grid-cols-[1.25fr_1fr]">
-        <section className="rounded-[28px] border border-black/5 p-6">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/40">
-                Assistant
-              </p>
-
-              <h2 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
-                Espace de conversation
-              </h2>
-            </div>
-
-            <span className="rounded-full bg-[#f4f1e8] px-4 py-2 text-xs font-semibold text-black/50">
-              Lecture seule
-            </span>
-          </div>
-
-          {!logs || logs.length === 0 ? (
-            <div className="mt-8 rounded-[24px] bg-[#f4f1e8] p-8">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-lg font-semibold">
-                AI
-              </div>
-
-              <h3 className="mt-6 text-2xl font-semibold tracking-[-.03em]">
-                Votre opérateur intelligent se prépare
-              </h3>
-
-              <p className="mt-3 max-w-xl text-black/50">
-                L’interface est prête à recevoir le futur moteur IA sécurisé
-                d’Invisible Mobile. Aucune réponse ou action fictive n’est
-                générée.
-              </p>
-            </div>
-          ) : (
-            <div className="mt-8 space-y-4">
-              {logs.map((log) => (
-                <article
-                  key={log.id}
-                  className="rounded-[24px] bg-[#f4f1e8] p-5"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-xs font-semibold uppercase tracking-[.14em] text-black/40">
-                      {log.role}
-                    </p>
-
-                    <p className="text-xs text-black/35">
-                      {formatDate(log.created_at)}
-                    </p>
-                  </div>
-
-                  <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-black/70">
-                    {log.content}
-                  </p>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
+        <AiOperatorChat
+          initialMessages={conversationMessages}
+          initialConversationId={latestConversationId}
+          initialLanguage={settings?.language === "en" ? "en" : "fr"}
+        />
 
         <section className="rounded-[28px] bg-[#f4f1e8] p-6">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/40">
-              Contrôle
-            </p>
+          <p className="text-sm font-semibold uppercase tracking-[.16em] text-black/40">
+            Contrôle
+          </p>
 
-            <h2 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
-              Actions proposées
-            </h2>
+          <h2 className="mt-3 text-2xl font-semibold tracking-[-.03em]">
+            Actions proposées
+          </h2>
 
-            <p className="mt-3 text-sm leading-6 text-black/50">
-              Les futures opérations sensibles devront être contrôlées avant
-              leur exécution.
-            </p>
-          </div>
+          <p className="mt-3 text-sm leading-6 text-black/50">
+            Les opérations sensibles restent séparées de la
+            conversation et nécessitent une confirmation explicite.
+          </p>
 
           {!actions || actions.length === 0 ? (
             <div className="mt-8 rounded-[24px] bg-white p-6">
@@ -207,8 +180,8 @@ export default async function AiOperatorPage() {
               </p>
 
               <p className="mt-3 text-sm leading-6 text-black/50">
-                Les recommandations et demandes de confirmation apparaîtront
-                ici lorsqu’un moteur IA sécurisé sera connecté.
+                Cette première version connectée analyse et répond,
+                mais n’exécute aucune opération sur vos eSIM.
               </p>
             </div>
           ) : (
@@ -257,21 +230,24 @@ export default async function AiOperatorPage() {
           <div>
             <p className="text-lg font-semibold">Analyser</p>
             <p className="mt-2 text-sm leading-6 text-white/50">
-              Comprendre le contexte et les besoins du compte.
+              Comprendre uniquement les données disponibles dans
+              votre compte.
             </p>
           </div>
 
           <div>
-            <p className="text-lg font-semibold">Proposer</p>
+            <p className="text-lg font-semibold">Répondre</p>
             <p className="mt-2 text-sm leading-6 text-white/50">
-              Préparer une recommandation ou une action traçable.
+              Fournir une assistance contextualisée sans inventer
+              d’opérations.
             </p>
           </div>
 
           <div>
             <p className="text-lg font-semibold">Contrôler</p>
             <p className="mt-2 text-sm leading-6 text-white/50">
-              Exiger une validation avant toute opération sensible.
+              Séparer les réponses IA des futures actions sensibles
+              soumises à confirmation.
             </p>
           </div>
         </div>
